@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>板神鐵板燒 — God of Teppanyaki</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{--gold:#c9a84c;--dark:#0a0a0a;--mid:#141414;--light:#f5f0e8;--muted:#888;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--dark);color:var(--light);font-family:'Georgia',serif;overflow-x:hidden;}
+
+  nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;background:linear-gradient(to bottom,rgba(0,0,0,0.85),transparent);transition:background 0.3s;}
+  nav.scrolled{background:rgba(10,10,10,0.97);}
+  .nav-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0;}
+  .nav-logo img{display:block!important;max-width:160px;height:auto;object-fit:contain;transition:opacity .2s;}
+  .nav-logo img:hover{opacity:.85;}
+  @media(max-width:768px){
+    nav{padding:.8rem 1.2rem;}
+    .nav-logo img{max-width:110px;}
+    .nav-links{gap:1rem;}
+    .nav-links li:not(:last-child){display:none;}
+  }
+  .nav-links{display:flex;gap:2rem;list-style:none;align-items:center;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;transition:color .2s;}
+  .nav-links a:hover{color:var(--light);}
+  .nav-book{background:var(--gold);color:var(--dark)!important;padding:.55rem 1.4rem;font-weight:700;}
+  .nav-book:hover{background:var(--light)!important;}
+
+  #hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  .slides{position:absolute;inset:0;}
+  .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.5s ease;background-size:cover;background-position:center;}
+  .slide.active{opacity:1;}
+  .slide:nth-child(1){background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=1600&q=80') center/cover;}
+  .slide:nth-child(2){background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=1600&q=80') center/cover;}
+  .slide:nth-child(3){background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1600&q=80') center/cover;}
+  .hero-content{position:relative;text-align:center;z-index:2;}
+  .hero-tag{font-family:'Helvetica Neue',sans-serif;font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
+  .hero-title{font-size:clamp(1rem,2.5vw,1.6rem);letter-spacing:.3em;color:rgba(255,255,255,.45);font-weight:300;margin-bottom:1.5rem;font-family:'Helvetica Neue',sans-serif;}
+  .hero-sub{font-family:'Helvetica Neue',sans-serif;font-size:.82rem;letter-spacing:.2em;color:var(--muted);margin-bottom:3rem;}
+  .btn-gold{display:inline-block;background:var(--gold);color:var(--dark);padding:.85rem 2.5rem;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;font-weight:700;transition:all .2s;}
+  .btn-gold:hover{background:var(--light);}
+  .btn-outline{display:inline-block;border:1px solid rgba(255,255,255,.35);color:var(--light);padding:.85rem 2.5rem;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;margin-left:1rem;transition:all .2s;}
+  .btn-outline:hover{border-color:var(--light);}
+  .scroll-ind{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:.4;}
+  .scroll-line{width:1px;height:50px;background:var(--light);animation:scrollDown 2s ease infinite;}
+  @keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+  section{padding:7rem 0;}
+  .container{max-width:1100px;margin:0 auto;padding:0 3rem;}
+  .section-label{font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+  .section-title{font-size:clamp(2rem,5vw,3.2rem);font-weight:400;margin-bottom:2.5rem;line-height:1.2;}
+
+  /* ABOUT */
+  #about{background:var(--mid);}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+  .about-img{aspect-ratio:3/4;overflow:hidden;}
+  .about-img img{width:100%;height:100%;object-fit:cover;opacity:.85;}
+  .about-text p{color:var(--muted);font-family:'Helvetica Neue',sans-serif;font-size:.92rem;line-height:2;margin-bottom:1.5rem;}
+  .pillars{display:flex;flex-direction:column;gap:0;margin-top:2rem;}
+  .pillar{display:flex;align-items:center;gap:1.2rem;border-top:1px solid rgba(255,255,255,.08);padding:1rem 0;}
+  .pillar-num{font-family:'Helvetica Neue',sans-serif;font-size:.65rem;color:var(--gold);letter-spacing:.2em;min-width:30px;}
+  .pillar-name{font-size:.95rem;}
+
+  /* MENU */
+  #menu{background:var(--dark);}
+
+  /* 分店選擇卡片 */
+  .branch-select{display:flex;align-items:stretch;justify-content:center;max-width:680px;margin:0 auto;border:1px solid rgba(201,168,76,.3);}
+  .branch-card{flex:1;display:block;text-decoration:none;padding:3rem 2rem;text-align:center;cursor:pointer;transition:background .25s;color:var(--light);}
+  .branch-card:hover{background:rgba(201,168,76,.07);}
+  .branch-card:hover{background:rgba(201,168,76,.07);}
+  .branch-card.active{background:rgba(201,168,76,.12);}
+  .branch-card-name{font-size:1.4rem;letter-spacing:.08em;margin-bottom:.5rem;font-family:'Georgia',serif;}
+  .branch-card-addr{font-family:'Helvetica Neue',sans-serif;font-size:.7rem;color:var(--muted);letter-spacing:.06em;line-height:1.7;}
+  .branch-divider{width:1px;background:var(--gold);opacity:.6;align-self:stretch;}
+
+  /* 時段選擇 */
+  .session-select{display:flex;align-items:stretch;justify-content:center;max-width:480px;margin:0 auto;border:1px solid rgba(201,168,76,.3);}
+  .session-card{flex:1;padding:2rem 1.5rem;text-align:center;cursor:pointer;transition:background .25s;background:none;border:none;color:var(--light);}
+  .session-card:hover{background:rgba(201,168,76,.07);}
+  .session-card.active{background:rgba(201,168,76,.12);}
+  .session-card-name{font-size:1.1rem;letter-spacing:.08em;margin-bottom:.4rem;font-family:'Georgia',serif;}
+  .session-card-time{font-family:'Helvetica Neue',sans-serif;font-size:.68rem;color:var(--gold);letter-spacing:.08em;}
+  .session-divider{width:1px;background:var(--gold);opacity:.6;align-self:stretch;}
+
+  /* 麵包屑 */
+  .breadcrumb{display:flex;align-items:center;gap:.6rem;margin-bottom:2rem;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;color:var(--muted);}
+  .breadcrumb span{color:var(--gold);}
+  .breadcrumb button{background:none;border:none;color:var(--muted);cursor:pointer;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;text-decoration:underline;padding:0;}
+  .breadcrumb button:hover{color:var(--light);}
+
+  .menu-coming{text-align:center;padding:4rem 2rem;}
+  .menu-coming p{font-family:'Helvetica Neue',sans-serif;color:var(--muted);font-size:.9rem;line-height:2;}
+
+  /* GALLERY */
+  .gallery-grid{max-width:1400px;margin:0 auto;padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px;}
+  .gal-item{overflow:hidden;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.3);aspect-ratio:4/3;}
+  .gal-item img{width:100%;height:100%;object-fit:cover;display:block;image-rendering:auto;transition:transform .3s ease;filter:brightness(1);}
+  .gal-item:hover img{transform:scale(1.03);}
+
+  /* RESERVATIONS */
+  #reservations{background:var(--dark);}
+  .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+  .res-info p{font-family:'Helvetica Neue',sans-serif;font-size:.88rem;color:var(--muted);line-height:1.9;margin-bottom:2rem;}
+  .hours-row{display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07);padding:.75rem 0;font-family:'Helvetica Neue',sans-serif;font-size:.82rem;}
+  .hours-row span:first-child{color:var(--muted);}
+  .branch-title{font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin:1.5rem 0 .5rem;}
+  form{display:flex;flex-direction:column;gap:1.1rem;}
+  form input,form select{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:var(--light);padding:.9rem 1.2rem;font-family:'Helvetica Neue',sans-serif;font-size:.85rem;outline:none;transition:border .2s;}
+  form input::placeholder{color:var(--muted);}
+  form input:focus,form select:focus{border-color:var(--gold);}
+  form select option{background:#1a1a1a;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  form button{background:var(--gold);color:var(--dark);border:none;padding:1rem;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:background .2s;}
+  form button:hover{background:var(--light);}
+
+  /* CONTACT */
+  #contact{background:var(--mid);}
+  .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem;}
+  .contact-block h3{font-family:'Helvetica Neue',sans-serif;font-size:.63rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
+  .contact-block p{font-family:'Helvetica Neue',sans-serif;font-size:.86rem;color:var(--muted);line-height:2;}
+  .contact-block a{color:var(--muted);text-decoration:none;transition:color .2s;}
+  .contact-block a:hover{color:var(--light);}
+  .branch-tag{display:inline-block;font-size:.62rem;letter-spacing:.15em;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:.15rem .5rem;margin-bottom:.4rem;}
+  .social-links{display:flex;gap:1rem;margin-top:1rem;}
+  .social-links a{font-family:'Helvetica Neue',sans-serif;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid rgba(255,255,255,.12);padding:.4rem .9rem;text-decoration:none;transition:all .2s;}
+  .social-links a:hover{border-color:var(--gold);color:var(--gold);}
+
+  footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.07);padding:2.5rem 3rem;display:flex;justify-content:space-between;align-items:center;}
+  .footer-logo{font-size:1rem;letter-spacing:.15em;color:rgba(255,255,255,.3);}
+  .footer-copy{font-family:'Helvetica Neue',sans-serif;font-size:.68rem;color:rgba(255,255,255,.2);letter-spacing:.08em;}
+  .footer-links{display:flex;gap:2rem;}
+  .footer-links a{font-family:'Helvetica Neue',sans-serif;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.25);text-decoration:none;}
+  .footer-links a:hover{color:rgba(255,255,255,.6);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#hero" aria-label="板神鐵板燒 — 返回首頁">
+    <img
+      src="https://i.ibb.co/TD9WVx40/logo-04.png"
+      alt="板神鐵板燒 Logo"
+      style="display:block;max-width:120px;height:auto;object-fit:contain;"
+      onerror="this.style.display='none'"
+    />
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="scrollToSection('about');return false;">關於我們</a></li>
+    <li><a href="#" onclick="scrollToSection('menu');return false;">餐牌</a></li>
+    <li><a href="#" onclick="scrollToSection('contact');return false;">聯絡</a></li>
+    <li><a href="#" onclick="scrollToSection('reservations');return false;" class="nav-book">立即預訂</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div style="position:absolute;inset:0;background:#0a0a0a;"></div>
+  <div class="hero-content">
+    <p class="hero-tag">頂級鐵板料理 · 香港</p>
+    <div style="display:flex;justify-content:center;margin-bottom:1.5rem;">
+      <img src="https://i.ibb.co/TD9WVx40/logo-04.png" alt="板神鐵板燒" style="height:200px;width:auto;filter:drop-shadow(0 4px 32px rgba(201,168,76,0.4));"/>
+    </div>
+    <h1 class="hero-title">GOD OF TEPPANYAKI</h1>
+    <p class="hero-sub">視覺 · 嗅覺 · 味覺的美食饗宴</p>
+    <a href="#" onclick="scrollToSection('reservations');return false;" class="btn-gold">立即預訂</a>
+    <a href="#" onclick="scrollToSection('menu');return false;" class="btn-outline">瀏覽餐牌</a>
+  </div>
+  <div class="scroll-ind"><div class="scroll-line"></div></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80" alt="板神鐵板燒"/>
+      </div>
+      <div class="about-text">
+        <p class="section-label">關於我們</p>
+        <h2 class="section-title">三大堅持<br>極致體驗</h2>
+        <p>板神不斷專注研發鐵板燒料理，務求將最新鮮食材發揮到極致，給予食客一試難忘的味覺饗宴。</p>
+        <p>板神堅持嚴選每一項食材，引進多款日本極上和牛，誠聘資深日本師傅，採取日式料理精髓及創新手法，用心打造頂級鐵板料理。</p>
+        <p>鐵板燒就是一場集結視覺、嗅覺、味覺的美食饗宴。我們堅持師傅與饗客的互動，貫徹「以客為尊」，每一場都是獨一無二的體驗，沒齒難忘的旅程。</p>
+        <div class="pillars">
+          <div class="pillar"><span class="pillar-num">01</span><span class="pillar-name">對肉的堅持</span></div>
+          <div class="pillar"><span class="pillar-num">02</span><span class="pillar-name">對服務的堅持</span></div>
+          <div class="pillar"><span class="pillar-num">03</span><span class="pillar-name">對環境的堅持</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="container">
+    <p class="section-label">品嚐精華</p>
+    <h2 class="section-title">餐牌</h2>
+
+    <!-- 步驟1: 選分店 → 直接跳外部連結 -->
+    <div id="step-branch">
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:.75rem;color:var(--muted);margin-bottom:2rem;letter-spacing:.1em;text-align:center;">請選擇分店查看餐牌</p>
+      <div class="branch-select">
+        <a class="branch-card" href="https://linktr.ee/godofteppanyaki" target="_blank" rel="noopener">
+          <div class="branch-card-name">銅鑼灣</div>
+          <div class="branch-card-addr">告士打道255-257號<br>信和廣場1樓103號舖</div>
+          <div style="margin-top:1rem;font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.12em;color:var(--gold);">查看餐牌 →</div>
+        </a>
+        <div class="branch-divider"></div>
+        <a class="branch-card" href="https://linktr.ee/KTGodofteppanyaki" target="_blank" rel="noopener">
+          <div class="branch-card-name">觀塘</div>
+          <div class="branch-card-addr">駿業街43號地下</div>
+          <div style="margin-top:1rem;font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.12em;color:var(--gold);">查看餐牌 →</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- RESERVATIONS -->
+<section id="reservations">
+  <div class="container">
+    <div class="res-grid">
+      <div class="res-info">
+        <p class="section-label">預訂座位</p>
+        <h2 class="section-title">立即預訂<br>席前體驗</h2>
+        <p>建議提前最少1天預訂。8位或以上之團體訂座，請直接致電聯絡我們。</p>
+        <p class="branch-title">銅鑼灣</p>
+        <div class="hours-row"><span>星期一至日</span><span>12:00–15:00 / 18:00–22:30</span></div>
+        <p class="branch-title">觀塘</p>
+        <div class="hours-row"><span>星期一至日</span><span>12:00–15:00 / 18:00–22:30</span></div>
+      </div>
+      <form onsubmit="submitForm(event)" id="resForm">
+        <div class="form-row">
+          <select id="salute" required style="flex:0 0 110px;">
+            <option value="">稱呼 *</option>
+            <option>先生</option>
+            <option>小姐</option>
+            <option>太太</option>
+          </select>
+          <input type="text" id="fname" placeholder="姓名 *" required style="flex:1;"/>
+        </div>
+        <div style="display:flex;gap:.6rem;align-items:center;">
+          <span style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);padding:.9rem 1rem;font-family:'Helvetica Neue',sans-serif;font-size:.85rem;color:var(--muted);white-space:nowrap;">+852</span>
+          <input type="tel" id="phone" placeholder="電話號碼 *" required pattern="[0-9]{8}" maxlength="8" style="flex:1;" oninput="this.value=this.value.replace(/\D/g,'')"/>
+        </div>
+        <select id="branch" required>
+          <option value="">選擇分店 *</option>
+          <option disabled>銅鑼灣 — 告士打道255-257號信和廣場（後續開放）</option>
+          <option>觀塘 — 駿業街43號地下</option>
+        </select>
+        <div style="font-family:'Helvetica Neue',sans-serif;font-size:.76rem;color:var(--muted);padding:.4rem 0 0 .2rem;line-height:1.8;">
+          📌 銅鑼灣分店網上預訂即將開放，如欲預訂請透過
+          <a href="https://www.openrice.com/zh/hongkong/r-%E6%9D%BF%E7%A5%9E%E9%89%84%E6%9D%BF%E7%87%92%E6%97%A5%E6%9C%AC%E6%96%99%E7%90%86-%E9%8A%85%E9%91%BC%E7%81%A3-%E6%97%A5%E6%9C%AC%E8%8F%9C-%E9%90%B5%E6%9D%BF%E7%87%92-r701032" target="_blank" style="color:var(--gold);text-decoration:none;">OpenRice</a>
+          或 WhatsApp <a href="https://wa.me/85297391677" target="_blank" style="color:var(--gold);text-decoration:none;">9739 1677</a> 預約
+        </div>
+        <select id="resDate" required></select>
+        <div class="form-row">
+          <select id="session" required onchange="updateTime()">
+            <option value="">午市 / 晚市 *</option>
+            <option value="lunch">午市 Lunch</option>
+            <option value="dinner">晚市 Dinner</option>
+          </select>
+          <select id="resTime" required>
+            <option value="">選擇時間 *</option>
+          </select>
+        </div>
+        <select id="guests" required>
+          <option value="">用餐人數 *</option>
+          <option>1位</option>
+          <option>2位</option>
+          <option>3位</option>
+        </select>
+        <div style="font-family:'Helvetica Neue',sans-serif;font-size:.76rem;color:var(--muted);padding:.4rem 0 0 .2rem;">
+          👶 6歲或以上兒童最低消費為 $400
+        </div>
+        <div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);padding:.9rem 1.2rem;font-family:'Helvetica Neue',sans-serif;font-size:.78rem;color:var(--gold);line-height:1.7;">
+          ⚠️ 四位或以上需 WhatsApp 餐廳預訂及繳付定金<br>
+          <span style="color:var(--muted);">銅鑼灣 📱 9739 1677 ｜ 觀塘 📱 5226 7837</span>
+        </div>
+        <button type="submit">送出預訂申請</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">聯絡我們</p>
+    <h2 class="section-title">分店資訊</h2>
+    <div class="contact-grid">
+      <div class="contact-block">
+        <h3>分店地址</h3>
+        <p>
+          <span class="branch-tag">銅鑼灣</span><br>
+          告士打道255-257號<br>信和廣場1樓103號舖<br><br>
+          <span class="branch-tag">觀塘</span><br>
+          駿業街43號地下
+        </p>
+      </div>
+      <div class="contact-block">
+        <h3>電話聯絡</h3>
+        <p>
+          <span style="color:var(--gold);font-size:.7rem;letter-spacing:.1em;">銅鑼灣</span><br>
+          <a href="tel:+85228177767">📞 2817 7767</a><br>
+          <a href="tel:+85297391677">📱 9739 1677</a><br><br>
+          <span style="color:var(--gold);font-size:.7rem;letter-spacing:.1em;">觀塘</span><br>
+          <a href="tel:+85228160617">📞 2816 0617</a><br>
+          <a href="tel:+85252267837">📱 5226 7837</a><br><br>
+          <a href="mailto:mkt.catering@lucky7h.hk">mkt.catering@lucky7h.hk</a>
+        </p>
+      </div>
+      <div class="contact-block">
+        <h3>社群媒體</h3>
+        <p>關注我們獲取最新優惠及活動資訊</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/godofteppanyaki/" target="_blank">IG</a>
+          <a href="https://www.facebook.com/godofteppanyaki/" target="_blank">FB</a>
+          <a href="https://www.threads.com/@godofteppanyaki" target="_blank">Threads</a>
+        </div>
+        <p style="margin-top:1.2rem;font-size:.8rem;">@godofteppanyaki</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">板神鐵板燒</div>
+  <div class="footer-copy">© 2024 板神鐵板燒 God of Teppanyaki. All rights reserved.</div>
+  <div class="footer-links"><a href="#">私隱政策</a><a href="#">條款</a></div>
+</footer>
+
+<script>
+function scrollToSection(id){
+  var el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth'});
+}
+document.addEventListener('DOMContentLoaded', function(){
+  // Hero slider
+  var cur=0;
+  var slides=document.querySelectorAll('.slide');
+  if(slides.length>0){
+    setInterval(function(){slides[cur].classList.remove('active');cur=(cur+1)%slides.length;slides[cur].classList.add('active');},5000);
+  }
+  window.addEventListener('scroll',function(){
+    var nav=document.getElementById('nav');
+    if(nav)nav.classList.toggle('scrolled',window.scrollY>80);
+  });
+
+  // 餐牌步驟
+  var menuBranch='';
+  var btnCwb=document.getElementById('btn-cwb');
+  var btnKt=document.getElementById('btn-kt');
+  var backBranch=document.getElementById('back-to-branch');
+  var btnLunch=document.getElementById('btn-lunch');
+  var btnDinner=document.getElementById('btn-dinner');
+  var backSession=document.getElementById('back-to-session');
+
+  function showSession(name){
+    document.getElementById('bc-branch').textContent=name;
+    document.getElementById('step-branch').style.display='none';
+    document.getElementById('step-session').style.display='block';
+  }
+  function showMenu(session){
+    var bName=menuBranch==='cwb'?'銅鑼灣':'觀塘';
+    document.getElementById('bc-branch2').textContent=bName;
+    document.getElementById('bc-session').textContent=session;
+    document.getElementById('step-session').style.display='none';
+    document.getElementById('step-menu').style.display='block';
+  }
+
+  if(btnCwb) btnCwb.addEventListener('click',function(){menuBranch='cwb';showSession('銅鑼灣');});
+  if(btnKt) btnKt.addEventListener('click',function(){menuBranch='kt';showSession('觀塘');});
+  if(backBranch) backBranch.addEventListener('click',function(){
+    document.getElementById('step-session').style.display='none';
+    document.getElementById('step-branch').style.display='block';
+  });
+  if(btnLunch) btnLunch.addEventListener('click',function(){showMenu('午市');});
+  if(btnDinner) btnDinner.addEventListener('click',function(){showMenu('晚市');});
+  if(backSession) backSession.addEventListener('click',function(){
+    document.getElementById('step-menu').style.display='none';
+    document.getElementById('step-session').style.display='block';
+  });
+
+  // 日期下拉
+  function pad(n){return String(n).padStart(2,'0');}
+  var sel=document.getElementById('resDate');
+  if(sel){
+    var opt=document.createElement('option');opt.value='';opt.textContent='選擇日期 *';sel.appendChild(opt);
+    var wn=['日','一','二','三','四','五','六'];
+    var today=new Date();today.setHours(0,0,0,0);
+    for(var i=1;i<=60;i++){
+      var d=new Date(today);d.setDate(today.getDate()+i);
+      var y=d.getFullYear(),m=pad(d.getMonth()+1),dd=pad(d.getDate());
+      var o=document.createElement('option');
+      o.value=y+'-'+m+'-'+dd;
+      o.textContent=y+'年'+m+'月'+dd+'日（星期'+wn[d.getDay()]+'）';
+      sel.appendChild(o);
+    }
+  }
+});
+
+function updateTime(){
+  var s=document.getElementById('session').value;
+  var t=document.getElementById('resTime');
+  t.innerHTML='<option value="">選擇時間 *</option>';
+  var times=s==='lunch'?['12:00','12:15','12:30','13:00','13:15','13:30']:s==='dinner'?['18:00','18:15','18:30','19:00','19:15','19:30','20:00','20:15','20:30']:[];
+  times.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=v;t.appendChild(o);});
+}
+
+function submitForm(e){
+  e.preventDefault();
+  var f=document.getElementById('resForm');
+  var salute=document.getElementById('salute').value;
+  var name=document.getElementById('fname').value;
+  f.innerHTML='<p style="text-align:center;padding:2.5rem 1rem;font-family:Helvetica Neue,sans-serif;font-size:.85rem;color:var(--gold);letter-spacing:.1em;">✓ 預訂申請已收到！<br><span style="color:var(--muted);margin-top:.8rem;display:block;line-height:1.9;">感謝 '+salute+' '+name+'，<br>我們將盡快聯絡您確認訂座。</span></p>';
+}
+</script>
+</body>
+</html>
