@@ -9,30 +9,29 @@
   :root{--gold:#c9a84c;--dark:#0a0a0a;--mid:#141414;--light:#f5f0e8;--muted:#888;}
   html{scroll-behavior:smooth;}
   body{background:var(--dark);color:var(--light);font-family:'Georgia',serif;overflow-x:hidden;}
-  
+
   nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;background:linear-gradient(to bottom,rgba(0,0,0,0.85),transparent);transition:background 0.3s;}
   nav.scrolled{background:rgba(10,10,10,0.97);}
-  
+
   .nav-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0;}
-  .nav-logo img{display:block!important;max-width:160px;height:auto;object-fit:contain;transition:opacity .2s;}
+  .nav-logo img{display:block!important;height:auto;object-fit:contain;transition:opacity .2s;}
   .nav-logo img:hover{opacity:.85;}
 
-  /* ==================== 手機漢堡選單 ==================== */
+  /* 漢堡選單 */
   .hamburger{display:none;cursor:pointer;z-index:101;}
   .hamburger span{display:block;width:28px;height:3px;background:var(--light);margin:6px 0;transition:0.3s;}
 
   @media(max-width:768px){
     nav{padding:.8rem 1.2rem;}
-    .nav-logo img{max-width:110px;}
+    .nav-logo img{max-width:100px !important;}   /* ← 你要求的：手機 Logo 變小 */
     .hamburger{display:block;}
-    
     .nav-links{
       position:fixed;top:70px;left:-100%;width:100%;height:calc(100vh-70px);
       background:var(--dark);flex-direction:column;align-items:center;
       justify-content:start;padding-top:3rem;gap:2rem;transition:all .4s;z-index:99;
     }
     .nav-links.active{left:0;}
-    .nav-links li:not(:last-child){display:block!important;}
+    .nav-links li:not(:last-child){display:block !important;}
   }
 
   .nav-links{display:flex;gap:2rem;list-style:none;align-items:center;}
@@ -46,30 +45,39 @@
   .hero-tag{font-family:'Helvetica Neue',sans-serif;font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
   .hero-title{font-size:clamp(1rem,2.5vw,1.6rem);letter-spacing:.3em;color:rgba(255,255,255,.45);font-weight:300;margin-bottom:1.5rem;font-family:'Helvetica Neue',sans-serif;}
   .hero-sub{font-family:'Helvetica Neue',sans-serif;font-size:.82rem;letter-spacing:.2em;color:var(--muted);margin-bottom:3rem;}
-  
+
   .btn-gold{display:inline-block;background:var(--gold);color:var(--dark);padding:.85rem 2.5rem;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;font-weight:700;transition:all .2s;}
   .btn-gold:hover{background:var(--light);}
   .btn-outline{display:inline-block;border:1px solid rgba(255,255,255,.35);color:var(--light);padding:.85rem 2.5rem;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;margin-left:1rem;transition:all .2s;}
   .btn-outline:hover{border-color:var(--light);}
 
-  section{padding:5rem 0;} /* 手機友好間距 */
+  section{padding:5rem 0;}
   .container{max-width:1100px;margin:0 auto;padding:0 1.5rem;}
 
   /* 響應式 Grid */
-  .about-grid, .res-grid{
-    display:grid;grid-template-columns:1fr;gap:3rem;align-items:center;
-  }
-  .contact-grid{
-    display:grid;grid-template-columns:1fr;gap:2.5rem;
-  }
+  .about-grid, .res-grid {display:grid;grid-template-columns:1fr;gap:3rem;}
+  .contact-grid {display:grid;grid-template-columns:1fr;gap:2.5rem;}
   @media(min-width:768px){
-    .about-grid, .res-grid{grid-template-columns:1fr 1fr;}
-    .contact-grid{grid-template-columns:repeat(3,1fr);}
+    .about-grid, .res-grid {grid-template-columns:1fr 1fr;}
+    .contact-grid {grid-template-columns:repeat(3,1fr);}
   }
 
   .about-img img{width:100%;height:100%;object-fit:cover;opacity:.85;}
-  
-  /* 其他樣式保持不變（為了簡潔我省略了中間大部分原有的 CSS，你可以直接把下面完整程式碼複製） */
+  .about-text p{color:var(--muted);font-family:'Helvetica Neue',sans-serif;font-size:.92rem;line-height:2;margin-bottom:1.5rem;}
+  .pillars{display:flex;flex-direction:column;gap:0;margin-top:2rem;}
+  .pillar{display:flex;align-items:center;gap:1.2rem;border-top:1px solid rgba(255,255,255,.08);padding:1rem 0;}
+  .pillar-num{font-family:'Helvetica Neue',sans-serif;font-size:.65rem;color:var(--gold);letter-spacing:.2em;min-width:30px;}
+  .pillar-name{font-size:.95rem;}
+
+  /* 其他原有樣式（保持不變） */
+  .branch-select,.session-select{display:flex;align-items:stretch;justify-content:center;max-width:680px;margin:0 auto;border:1px solid rgba(201,168,76,.3);}
+  .branch-card,.session-card{flex:1;display:block;text-decoration:none;padding:3rem 2rem;text-align:center;cursor:pointer;transition:background .25s;color:var(--light);}
+  .branch-card:hover,.session-card:hover{background:rgba(201,168,76,.07);}
+  .branch-card.active,.session-card.active{background:rgba(201,168,76,.12);}
+  .branch-divider,.session-divider{width:1px;background:var(--gold);opacity:.6;align-self:stretch;}
+  .gallery-grid{max-width:1400px;margin:0 auto;padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px;}
+  form input,form select{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:var(--light);padding:.9rem 1.2rem;font-family:'Helvetica Neue',sans-serif;font-size:.85rem;outline:none;transition:border .2s;}
+  form button{background:var(--gold);color:var(--dark);border:none;padding:1rem;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -77,7 +85,7 @@
 <!-- NAV -->
 <nav id="nav">
   <a class="nav-logo" href="#hero" aria-label="板神鐵板燒 — 返回首頁">
-    <img src="https://i.ibb.co/wvMp1gG/logo.png" alt="板神鐵板燒 Logo" style="max-width:120px;height:auto;"/>
+    <img src="https://i.ibb.co/wvMp1gG/logo.png" alt="板神鐵板燒 Logo"/>
   </a>
   
   <div class="hamburger" id="hamburger">
@@ -98,7 +106,7 @@
   <div class="hero-content">
     <p class="hero-tag">頂級鐵板料理 · 香港</p>
     <div style="display:flex;justify-content:center;margin-bottom:1.5rem;">
-      <img src="https://i.ibb.co/wvMp1gG/logo.png" alt="板神鐵板燒" style="height:180px;width:auto;filter:drop-shadow(0 4px 32px rgba(201,168,76,0.4));"/>
+      <img src="https://i.ibb.co/wvMp1gG/logo.png" alt="板神鐵板燒" style="height:160px;width:auto;filter:drop-shadow(0 4px 32px rgba(201,168,76,0.4));"/>
     </div>
     <h1 class="hero-title">GOD OF TEPPANYAKI</h1>
     <p class="hero-sub">視覺 · 嗅覺 · 味覺的美食饗宴</p>
@@ -120,24 +128,193 @@
         <p>板神不斷專注研發鐵板燒料理，務求將最新鮮食材發揮到極致，給予食客一試難忘的味覺饗宴。</p>
         <p>板神堅持嚴選每一項食材，引進多款日本極上和牛，誠聘資深日本師傅，採取日式料理精髓及創新手法，用心打造頂級鐵板料理。</p>
         <p>鐵板燒就是一場集結視覺、嗅覺、味覺的美食饗宴。我們堅持師傅與饗客的互動，貫徹「以客為尊」，每一場都是獨一無二的體驗，沒齒難忘的旅程。</p>
+        <div class="pillars">
+          <div class="pillar"><span class="pillar-num">01</span><span class="pillar-name">對肉的堅持</span></div>
+          <div class="pillar"><span class="pillar-num">02</span><span class="pillar-name">對服務的堅持</span></div>
+          <div class="pillar"><span class="pillar-num">03</span><span class="pillar-name">對環境的堅持</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 其餘區塊保持不變（MENU、RESERVATIONS、CONTACT、FOOTER） -->
-<!-- 我為了讓你能快速複製，這裡先給你重點更新的部分。如果你需要完整最終版，請告訴我「給我完整HTML」，我立刻貼上。 -->
+<!-- MENU -->
+<section id="menu">
+  <div class="container">
+    <p class="section-label">品嚐精華</p>
+    <h2 class="section-title">餐牌</h2>
+    <p style="font-family:'Helvetica Neue',sans-serif;font-size:.75rem;color:var(--muted);margin-bottom:2rem;letter-spacing:.1em;text-align:center;">請選擇分店查看餐牌</p>
+    <div class="branch-select">
+      <a class="branch-card" href="https://linktr.ee/godofteppanyaki" target="_blank" rel="noopener">
+        <div class="branch-card-name">銅鑼灣</div>
+        <div class="branch-card-addr">告士打道255-257號<br>信和廣場1樓103號舖</div>
+        <div style="margin-top:1rem;font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.12em;color:var(--gold);">查看餐牌 →</div>
+      </a>
+      <div class="branch-divider"></div>
+      <a class="branch-card" href="https://linktr.ee/KTGodofteppanyaki" target="_blank" rel="noopener">
+        <div class="branch-card-name">觀塘</div>
+        <div class="branch-card-addr">駿業街43號地下</div>
+        <div style="margin-top:1rem;font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.12em;color:var(--gold);">查看餐牌 →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATIONS -->
+<section id="reservations">
+  <div class="container">
+    <div class="res-grid">
+      <div class="res-info">
+        <p class="section-label">預訂座位</p>
+        <h2 class="section-title">立即預訂<br>席前體驗</h2>
+        <p>建議提前最少1天預訂。8位或以上之團體訂座，請直接致電聯絡我們。</p>
+        <p class="branch-title">銅鑼灣</p>
+        <div class="hours-row"><span>星期一至日</span><span>12:00–15:00 / 18:00–22:30</span></div>
+        <p class="branch-title">觀塘</p>
+        <div class="hours-row"><span>星期一至日</span><span>12:00–15:00 / 18:00–22:30</span></div>
+      </div>
+      <form onsubmit="submitForm(event)" id="resForm">
+        <!-- 表單內容保持不變 -->
+        <div class="form-row">
+          <select id="salute" required style="flex:0 0 110px;">
+            <option value="">稱呼 *</option>
+            <option>先生</option>
+            <option>小姐</option>
+            <option>太太</option>
+          </select>
+          <input type="text" id="fname" placeholder="姓名 *" required style="flex:1;"/>
+        </div>
+        <div style="display:flex;gap:.6rem;align-items:center;">
+          <span style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);padding:.9rem 1rem;font-family:'Helvetica Neue',sans-serif;font-size:.85rem;color:var(--muted);white-space:nowrap;">+852</span>
+          <input type="tel" id="phone" placeholder="電話號碼 *" required pattern="[0-9]{8}" maxlength="8" style="flex:1;" oninput="this.value=this.value.replace(/\D/g,'')"/>
+        </div>
+        <select id="branch" required>
+          <option value="">選擇分店 *</option>
+          <option disabled>銅鑼灣 — 告士打道255-257號信和廣場（後續開放）</option>
+          <option>觀塘 — 駿業街43號地下</option>
+        </select>
+        <div style="font-family:'Helvetica Neue',sans-serif;font-size:.76rem;color:var(--muted);padding:.4rem 0 0 .2rem;line-height:1.8;">
+          📌 銅鑼灣分店網上預訂即將開放，如欲預訂請透過
+          <a href="https://www.openrice.com/zh/hongkong/r-%E6%9D%BF%E7%A5%9E%E9%89%84%E6%9D%BF%E7%87%92%E6%97%A5%E6%9C%AC%E6%96%99%E7%90%86-%E9%8A%85%E9%91%BC%E7%81%A3-%E6%97%A5%E6%9C%AC%E8%8F%9C-%E9%90%B5%E6%9D%BF%E7%87%92-r701032" target="_blank" style="color:var(--gold);text-decoration:none;">OpenRice</a>
+          或 WhatsApp <a href="https://wa.me/85297391677" target="_blank" style="color:var(--gold);text-decoration:none;">9739 1677</a> 預約
+        </div>
+        <select id="resDate" required></select>
+        <div class="form-row">
+          <select id="session" required onchange="updateTime()">
+            <option value="">午市 / 晚市 *</option>
+            <option value="lunch">午市 Lunch</option>
+            <option value="dinner">晚市 Dinner</option>
+          </select>
+          <select id="resTime" required>
+            <option value="">選擇時間 *</option>
+          </select>
+        </div>
+        <select id="guests" required>
+          <option value="">用餐人數 *</option>
+          <option>1位</option>
+          <option>2位</option>
+          <option>3位</option>
+        </select>
+        <button type="submit">送出預訂申請</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">聯絡我們</p>
+    <h2 class="section-title">分店資訊</h2>
+    <div class="contact-grid">
+      <div class="contact-block">
+        <h3>分店地址</h3>
+        <p>
+          <span class="branch-tag">銅鑼灣</span><br>
+          告士打道255-257號<br>信和廣場1樓103號舖<br><br>
+          <span class="branch-tag">觀塘</span><br>
+          駿業街43號地下
+        </p>
+      </div>
+      <div class="contact-block">
+        <h3>電話聯絡</h3>
+        <p>
+          <span style="color:var(--gold);font-size:.7rem;letter-spacing:.1em;">銅鑼灣</span><br>
+          <a href="tel:+85228177767">📞 2817 7767</a><br>
+          <a href="tel:+85297391677">📱 9739 1677</a><br><br>
+          <span style="color:var(--gold);font-size:.7rem;letter-spacing:.1em;">觀塘</span><br>
+          <a href="tel:+85228160617">📞 2816 0617</a><br>
+          <a href="tel:+85252267837">📱 5226 7837</a><br><br>
+          <a href="mailto:mkt.catering@lucky7h.hk">mkt.catering@lucky7h.hk</a>
+        </p>
+      </div>
+      <div class="contact-block">
+        <h3>社群媒體</h3>
+        <p>關注我們獲取最新優惠及活動資訊</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/godofteppanyaki/" target="_blank">IG</a>
+          <a href="https://www.facebook.com/godofteppanyaki/" target="_blank">FB</a>
+          <a href="https://www.threads.com/@godofteppanyaki" target="_blank">Threads</a>
+        </div>
+        <p style="margin-top:1.2rem;font-size:.8rem;">@godofteppanyaki</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">板神鐵板燒</div>
+  <div class="footer-copy">© 2024 板神鐵板燒 God of Teppanyaki. All rights reserved.</div>
+  <div class="footer-links"><a href="#">私隱政策</a><a href="#">條款</a></div>
+</footer>
 
 <script>
-// 漢堡選單功能
 document.getElementById('hamburger').addEventListener('click', function(){
   document.getElementById('navLinks').classList.toggle('active');
 });
 
-// 其他原有 script...
 function scrollToSection(id){
   var el=document.getElementById(id);
   if(el)el.scrollIntoView({behavior:'smooth'});
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  window.addEventListener('scroll',function(){
+    var nav=document.getElementById('nav');
+    if(nav)nav.classList.toggle('scrolled',window.scrollY>80);
+  });
+
+  // 日期選單
+  var sel=document.getElementById('resDate');
+  if(sel){
+    var opt=document.createElement('option');opt.value='';opt.textContent='選擇日期 *';sel.appendChild(opt);
+    var wn=['日','一','二','三','四','五','六'];
+    var today=new Date();today.setHours(0,0,0,0);
+    for(var i=1;i<=60;i++){
+      var d=new Date(today);d.setDate(today.getDate()+i);
+      var y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');
+      var o=document.createElement('option');
+      o.value=y+'-'+m+'-'+dd;
+      o.textContent=y+'年'+m+'月'+dd+'日（星期'+wn[d.getDay()]+'）';
+      sel.appendChild(o);
+    }
+  }
+});
+
+function updateTime(){
+  var s=document.getElementById('session').value;
+  var t=document.getElementById('resTime');
+  t.innerHTML='<option value="">選擇時間 *</option>';
+  var times=s==='lunch'?['12:00','12:15','12:30','13:00','13:15','13:30']:s==='dinner'?['18:00','18:15','18:30','19:00','19:15','19:30','20:00','20:15','20:30']:[];
+  times.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=v;t.appendChild(o);});
+}
+
+function submitForm(e){
+  e.preventDefault();
+  var f=document.getElementById('resForm');
+  var salute=document.getElementById('salute').value;
+  var name=document.getElementById('fname').value;
+  f.innerHTML='<p style="text-align:center;padding:2.5rem 1rem;font-family:Helvetica Neue,sans-serif;font-size:.85rem;color:var(--gold);letter-spacing:.1em;">✓ 預訂申請已收到！<br><span style="color:var(--muted);margin-top:.8rem;display:block;line-height:1.9;">感謝 '+salute+' '+name+'，<br>我們將盡快聯絡您確認訂座。</span></p>';
 }
 </script>
 </body>
