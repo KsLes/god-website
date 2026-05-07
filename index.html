@@ -17,13 +17,20 @@
   .nav-logo img{display:block!important;height:auto;object-fit:contain;transition:opacity .2s;}
   .nav-logo img:hover{opacity:.85;}
 
+  /* Logo 大小控制 - 桌面版恢復原本大小 */
+  @media(min-width:769px){
+    .nav-logo img{max-width:160px !important;}   /* ← 恢復原本桌面大小 */
+  }
+  @media(max-width:768px){
+    .nav-logo img{max-width:100px !important;}
+  }
+
   /* 漢堡選單 */
   .hamburger{display:none;cursor:pointer;z-index:101;}
   .hamburger span{display:block;width:28px;height:3px;background:var(--light);margin:6px 0;transition:0.3s;}
 
   @media(max-width:768px){
     nav{padding:.8rem 1.2rem;}
-    .nav-logo img{max-width:100px !important;}   /* ← 你要求的：手機 Logo 變小 */
     .hamburger{display:block;}
     .nav-links{
       position:fixed;top:70px;left:-100%;width:100%;height:calc(100vh-70px);
@@ -42,6 +49,17 @@
 
   #hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
   .hero-content{position:relative;text-align:center;z-index:2;padding:0 1.5rem;}
+
+  /* Hero Logo 大小 */
+  .hero-logo img{
+    height:200px;           /* ← 桌面版原本大小 */
+    width:auto;
+    filter:drop-shadow(0 4px 32px rgba(201,168,76,0.4));
+  }
+  @media(max-width:768px){
+    .hero-logo img{height:160px;}
+  }
+
   .hero-tag{font-family:'Helvetica Neue',sans-serif;font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
   .hero-title{font-size:clamp(1rem,2.5vw,1.6rem);letter-spacing:.3em;color:rgba(255,255,255,.45);font-weight:300;margin-bottom:1.5rem;font-family:'Helvetica Neue',sans-serif;}
   .hero-sub{font-family:'Helvetica Neue',sans-serif;font-size:.82rem;letter-spacing:.2em;color:var(--muted);margin-bottom:3rem;}
@@ -54,7 +72,6 @@
   section{padding:5rem 0;}
   .container{max-width:1100px;margin:0 auto;padding:0 1.5rem;}
 
-  /* 響應式 Grid */
   .about-grid, .res-grid {display:grid;grid-template-columns:1fr;gap:3rem;}
   .contact-grid {display:grid;grid-template-columns:1fr;gap:2.5rem;}
   @media(min-width:768px){
@@ -62,22 +79,29 @@
     .contact-grid {grid-template-columns:repeat(3,1fr);}
   }
 
-  .about-img img{width:100%;height:100%;object-fit:cover;opacity:.85;}
-  .about-text p{color:var(--muted);font-family:'Helvetica Neue',sans-serif;font-size:.92rem;line-height:2;margin-bottom:1.5rem;}
-  .pillars{display:flex;flex-direction:column;gap:0;margin-top:2rem;}
-  .pillar{display:flex;align-items:center;gap:1.2rem;border-top:1px solid rgba(255,255,255,.08);padding:1rem 0;}
-  .pillar-num{font-family:'Helvetica Neue',sans-serif;font-size:.65rem;color:var(--gold);letter-spacing:.2em;min-width:30px;}
-  .pillar-name{font-size:.95rem;}
+  /* 電話與社群媒體連結 - 乾淨樣式 */
+  .contact-block a{
+    color:var(--muted);
+    text-decoration:none !important;
+    transition:color .2s;
+  }
+  .contact-block a:hover{
+    color:var(--gold);
+  }
+  .social-links a{
+    color:var(--muted) !important;
+    text-decoration:none !important;
+    border:1px solid rgba(255,255,255,.12);
+    padding:.4rem .9rem;
+    border-radius:4px;
+    transition:all .2s;
+  }
+  .social-links a:hover{
+    border-color:var(--gold);
+    color:var(--gold) !important;
+  }
 
-  /* 其他原有樣式（保持不變） */
-  .branch-select,.session-select{display:flex;align-items:stretch;justify-content:center;max-width:680px;margin:0 auto;border:1px solid rgba(201,168,76,.3);}
-  .branch-card,.session-card{flex:1;display:block;text-decoration:none;padding:3rem 2rem;text-align:center;cursor:pointer;transition:background .25s;color:var(--light);}
-  .branch-card:hover,.session-card:hover{background:rgba(201,168,76,.07);}
-  .branch-card.active,.session-card.active{background:rgba(201,168,76,.12);}
-  .branch-divider,.session-divider{width:1px;background:var(--gold);opacity:.6;align-self:stretch;}
-  .gallery-grid{max-width:1400px;margin:0 auto;padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px;}
-  form input,form select{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:var(--light);padding:.9rem 1.2rem;font-family:'Helvetica Neue',sans-serif;font-size:.85rem;outline:none;transition:border .2s;}
-  form button{background:var(--gold);color:var(--dark);border:none;padding:1rem;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;cursor:pointer;}
+  .about-img img{width:100%;height:100%;object-fit:cover;opacity:.85;}
 </style>
 </head>
 <body>
@@ -105,8 +129,8 @@
   <div style="position:absolute;inset:0;background:#0a0a0a;"></div>
   <div class="hero-content">
     <p class="hero-tag">頂級鐵板料理 · 香港</p>
-    <div style="display:flex;justify-content:center;margin-bottom:1.5rem;">
-      <img src="https://i.ibb.co/wvMp1gG/logo.png" alt="板神鐵板燒" style="height:160px;width:auto;filter:drop-shadow(0 4px 32px rgba(201,168,76,0.4));"/>
+    <div class="hero-logo" style="display:flex;justify-content:center;margin-bottom:1.5rem;">
+      <img src="https://i.ibb.co/wvMp1gG/logo.png" alt="板神鐵板燒"/>
     </div>
     <h1 class="hero-title">GOD OF TEPPANYAKI</h1>
     <p class="hero-sub">視覺 · 嗅覺 · 味覺的美食饗宴</p>
@@ -174,7 +198,6 @@
         <div class="hours-row"><span>星期一至日</span><span>12:00–15:00 / 18:00–22:30</span></div>
       </div>
       <form onsubmit="submitForm(event)" id="resForm">
-        <!-- 表單內容保持不變 -->
         <div class="form-row">
           <select id="salute" required style="flex:0 0 110px;">
             <option value="">稱呼 *</option>
@@ -274,47 +297,52 @@ document.getElementById('hamburger').addEventListener('click', function(){
 });
 
 function scrollToSection(id){
-  var el=document.getElementById(id);
-  if(el)el.scrollIntoView({behavior:'smooth'});
+  var el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth'});
 }
 
 document.addEventListener('DOMContentLoaded', function(){
   window.addEventListener('scroll',function(){
     var nav=document.getElementById('nav');
-    if(nav)nav.classList.toggle('scrolled',window.scrollY>80);
+    if(nav) nav.classList.toggle('scrolled',window.scrollY>80);
   });
 
   // 日期選單
-  var sel=document.getElementById('resDate');
+  var sel = document.getElementById('resDate');
   if(sel){
-    var opt=document.createElement('option');opt.value='';opt.textContent='選擇日期 *';sel.appendChild(opt);
-    var wn=['日','一','二','三','四','五','六'];
-    var today=new Date();today.setHours(0,0,0,0);
-    for(var i=1;i<=60;i++){
-      var d=new Date(today);d.setDate(today.getDate()+i);
-      var y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');
-      var o=document.createElement('option');
-      o.value=y+'-'+m+'-'+dd;
-      o.textContent=y+'年'+m+'月'+dd+'日（星期'+wn[d.getDay()]+'）';
+    var opt = document.createElement('option');
+    opt.value = ''; opt.textContent = '選擇日期 *';
+    sel.appendChild(opt);
+    var wn = ['日','一','二','三','四','五','六'];
+    var today = new Date(); today.setHours(0,0,0,0);
+    for(var i=1; i<=60; i++){
+      var d = new Date(today); d.setDate(today.getDate()+i);
+      var y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), dd = String(d.getDate()).padStart(2,'0');
+      var o = document.createElement('option');
+      o.value = y+'-'+m+'-'+dd;
+      o.textContent = y+'年'+m+'月'+dd+'日（星期'+wn[d.getDay()]+'）';
       sel.appendChild(o);
     }
   }
 });
 
 function updateTime(){
-  var s=document.getElementById('session').value;
-  var t=document.getElementById('resTime');
-  t.innerHTML='<option value="">選擇時間 *</option>';
-  var times=s==='lunch'?['12:00','12:15','12:30','13:00','13:15','13:30']:s==='dinner'?['18:00','18:15','18:30','19:00','19:15','19:30','20:00','20:15','20:30']:[];
-  times.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=v;t.appendChild(o);});
+  var s = document.getElementById('session').value;
+  var t = document.getElementById('resTime');
+  t.innerHTML = '<option value="">選擇時間 *</option>';
+  var times = s==='lunch' ? ['12:00','12:15','12:30','13:00','13:15','13:30'] : 
+              s==='dinner' ? ['18:00','18:15','18:30','19:00','19:15','19:30','20:00','20:15','20:30'] : [];
+  times.forEach(function(v){
+    var o = document.createElement('option'); o.value = v; o.textContent = v; t.appendChild(o);
+  });
 }
 
 function submitForm(e){
   e.preventDefault();
-  var f=document.getElementById('resForm');
-  var salute=document.getElementById('salute').value;
-  var name=document.getElementById('fname').value;
-  f.innerHTML='<p style="text-align:center;padding:2.5rem 1rem;font-family:Helvetica Neue,sans-serif;font-size:.85rem;color:var(--gold);letter-spacing:.1em;">✓ 預訂申請已收到！<br><span style="color:var(--muted);margin-top:.8rem;display:block;line-height:1.9;">感謝 '+salute+' '+name+'，<br>我們將盡快聯絡您確認訂座。</span></p>';
+  var f = document.getElementById('resForm');
+  var salute = document.getElementById('salute').value;
+  var name = document.getElementById('fname').value;
+  f.innerHTML = '<p style="text-align:center;padding:2.5rem 1rem;font-family:Helvetica Neue,sans-serif;font-size:.85rem;color:var(--gold);letter-spacing:.1em;">✓ 預訂申請已收到！<br><span style="color:var(--muted);margin-top:.8rem;display:block;line-height:1.9;">感謝 '+salute+' '+name+'，<br>我們將盡快聯絡您確認訂座。</span></p>';
 }
 </script>
 </body>
