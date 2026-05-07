@@ -12,35 +12,15 @@
 
   nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;background:linear-gradient(to bottom,rgba(0,0,0,0.85),transparent);transition:background 0.3s;}
   nav.scrolled{background:rgba(10,10,10,0.97);}
-
   .nav-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0;}
-  .nav-logo img{display:block!important;height:auto;object-fit:contain;transition:opacity .2s;}
+  .nav-logo img{display:block!important;max-width:160px;height:auto;object-fit:contain;transition:opacity .2s;}
   .nav-logo img:hover{opacity:.85;}
-
-  /* Logo 大小控制 - 桌面版恢復原本大小 */
-  @media(min-width:769px){
-    .nav-logo img{max-width:160px !important;}   /* ← 恢復原本桌面大小 */
-  }
-  @media(max-width:768px){
-    .nav-logo img{max-width:100px !important;}
-  }
-
-  /* 漢堡選單 */
-  .hamburger{display:none;cursor:pointer;z-index:101;}
-  .hamburger span{display:block;width:28px;height:3px;background:var(--light);margin:6px 0;transition:0.3s;}
-
   @media(max-width:768px){
     nav{padding:.8rem 1.2rem;}
-    .hamburger{display:block;}
-    .nav-links{
-      position:fixed;top:70px;left:-100%;width:100%;height:calc(100vh-70px);
-      background:var(--dark);flex-direction:column;align-items:center;
-      justify-content:start;padding-top:3rem;gap:2rem;transition:all .4s;z-index:99;
-    }
-    .nav-links.active{left:0;}
-    .nav-links li:not(:last-child){display:block !important;}
+    .nav-logo img{max-width:110px;}
+    .nav-links{gap:1rem;}
+    .nav-links li:not(:last-child){display:none;}
   }
-
   .nav-links{display:flex;gap:2rem;list-style:none;align-items:center;}
   .nav-links a{color:var(--muted);text-decoration:none;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;transition:color .2s;}
   .nav-links a:hover{color:var(--light);}
@@ -48,60 +28,111 @@
   .nav-book:hover{background:var(--light)!important;}
 
   #hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
-  .hero-content{position:relative;text-align:center;z-index:2;padding:0 1.5rem;}
-
-  /* Hero Logo 大小 */
-  .hero-logo img{
-    height:200px;           /* ← 桌面版原本大小 */
-    width:auto;
-    filter:drop-shadow(0 4px 32px rgba(201,168,76,0.4));
-  }
-  @media(max-width:768px){
-    .hero-logo img{height:160px;}
-  }
-
+  .slides{position:absolute;inset:0;}
+  .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.5s ease;background-size:cover;background-position:center;}
+  .slide.active{opacity:1;}
+  .slide:nth-child(1){background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=1600&q=80') center/cover;}
+  .slide:nth-child(2){background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=1600&q=80') center/cover;}
+  .slide:nth-child(3){background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1600&q=80') center/cover;}
+  .hero-content{position:relative;text-align:center;z-index:2;}
   .hero-tag{font-family:'Helvetica Neue',sans-serif;font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
   .hero-title{font-size:clamp(1rem,2.5vw,1.6rem);letter-spacing:.3em;color:rgba(255,255,255,.45);font-weight:300;margin-bottom:1.5rem;font-family:'Helvetica Neue',sans-serif;}
   .hero-sub{font-family:'Helvetica Neue',sans-serif;font-size:.82rem;letter-spacing:.2em;color:var(--muted);margin-bottom:3rem;}
-
   .btn-gold{display:inline-block;background:var(--gold);color:var(--dark);padding:.85rem 2.5rem;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;font-weight:700;transition:all .2s;}
   .btn-gold:hover{background:var(--light);}
   .btn-outline{display:inline-block;border:1px solid rgba(255,255,255,.35);color:var(--light);padding:.85rem 2.5rem;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;margin-left:1rem;transition:all .2s;}
   .btn-outline:hover{border-color:var(--light);}
+  .scroll-ind{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:.4;}
+  .scroll-line{width:1px;height:50px;background:var(--light);animation:scrollDown 2s ease infinite;}
+  @keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
 
-  section{padding:5rem 0;}
-  .container{max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+  section{padding:7rem 0;}
+  .container{max-width:1100px;margin:0 auto;padding:0 3rem;}
+  .section-label{font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+  .section-title{font-size:clamp(2rem,5vw,3.2rem);font-weight:400;margin-bottom:2.5rem;line-height:1.2;}
 
-  .about-grid, .res-grid {display:grid;grid-template-columns:1fr;gap:3rem;}
-  .contact-grid {display:grid;grid-template-columns:1fr;gap:2.5rem;}
-  @media(min-width:768px){
-    .about-grid, .res-grid {grid-template-columns:1fr 1fr;}
-    .contact-grid {grid-template-columns:repeat(3,1fr);}
-  }
-
-  /* 電話與社群媒體連結 - 乾淨樣式 */
-  .contact-block a{
-    color:var(--muted);
-    text-decoration:none !important;
-    transition:color .2s;
-  }
-  .contact-block a:hover{
-    color:var(--gold);
-  }
-  .social-links a{
-    color:var(--muted) !important;
-    text-decoration:none !important;
-    border:1px solid rgba(255,255,255,.12);
-    padding:.4rem .9rem;
-    border-radius:4px;
-    transition:all .2s;
-  }
-  .social-links a:hover{
-    border-color:var(--gold);
-    color:var(--gold) !important;
-  }
-
+  /* ABOUT */
+  #about{background:var(--mid);}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+  .about-img{aspect-ratio:3/4;overflow:hidden;}
   .about-img img{width:100%;height:100%;object-fit:cover;opacity:.85;}
+  .about-text p{color:var(--muted);font-family:'Helvetica Neue',sans-serif;font-size:.92rem;line-height:2;margin-bottom:1.5rem;}
+  .pillars{display:flex;flex-direction:column;gap:0;margin-top:2rem;}
+  .pillar{display:flex;align-items:center;gap:1.2rem;border-top:1px solid rgba(255,255,255,.08);padding:1rem 0;}
+  .pillar-num{font-family:'Helvetica Neue',sans-serif;font-size:.65rem;color:var(--gold);letter-spacing:.2em;min-width:30px;}
+  .pillar-name{font-size:.95rem;}
+
+  /* MENU */
+  #menu{background:var(--dark);}
+
+  /* 分店選擇卡片 */
+  .branch-select{display:flex;align-items:stretch;justify-content:center;max-width:680px;margin:0 auto;border:1px solid rgba(201,168,76,.3);}
+  .branch-card{flex:1;display:block;text-decoration:none;padding:3rem 2rem;text-align:center;cursor:pointer;transition:background .25s;color:var(--light);}
+  .branch-card:hover{background:rgba(201,168,76,.07);}
+  .branch-card:hover{background:rgba(201,168,76,.07);}
+  .branch-card.active{background:rgba(201,168,76,.12);}
+  .branch-card-name{font-size:1.4rem;letter-spacing:.08em;margin-bottom:.5rem;font-family:'Georgia',serif;}
+  .branch-card-addr{font-family:'Helvetica Neue',sans-serif;font-size:.7rem;color:var(--muted);letter-spacing:.06em;line-height:1.7;}
+  .branch-divider{width:1px;background:var(--gold);opacity:.6;align-self:stretch;}
+
+  /* 時段選擇 */
+  .session-select{display:flex;align-items:stretch;justify-content:center;max-width:480px;margin:0 auto;border:1px solid rgba(201,168,76,.3);}
+  .session-card{flex:1;padding:2rem 1.5rem;text-align:center;cursor:pointer;transition:background .25s;background:none;border:none;color:var(--light);}
+  .session-card:hover{background:rgba(201,168,76,.07);}
+  .session-card.active{background:rgba(201,168,76,.12);}
+  .session-card-name{font-size:1.1rem;letter-spacing:.08em;margin-bottom:.4rem;font-family:'Georgia',serif;}
+  .session-card-time{font-family:'Helvetica Neue',sans-serif;font-size:.68rem;color:var(--gold);letter-spacing:.08em;}
+  .session-divider{width:1px;background:var(--gold);opacity:.6;align-self:stretch;}
+
+  /* 麵包屑 */
+  .breadcrumb{display:flex;align-items:center;gap:.6rem;margin-bottom:2rem;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;color:var(--muted);}
+  .breadcrumb span{color:var(--gold);}
+  .breadcrumb button{background:none;border:none;color:var(--muted);cursor:pointer;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;text-decoration:underline;padding:0;}
+  .breadcrumb button:hover{color:var(--light);}
+
+  .menu-coming{text-align:center;padding:4rem 2rem;}
+  .menu-coming p{font-family:'Helvetica Neue',sans-serif;color:var(--muted);font-size:.9rem;line-height:2;}
+
+  /* GALLERY */
+  .gallery-grid{max-width:1400px;margin:0 auto;padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px;}
+  .gal-item{overflow:hidden;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.3);aspect-ratio:4/3;}
+  .gal-item img{width:100%;height:100%;object-fit:cover;display:block;image-rendering:auto;transition:transform .3s ease;filter:brightness(1);}
+  .gal-item:hover img{transform:scale(1.03);}
+
+  /* RESERVATIONS */
+  #reservations{background:var(--dark);}
+  .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+  .res-info p{font-family:'Helvetica Neue',sans-serif;font-size:.88rem;color:var(--muted);line-height:1.9;margin-bottom:2rem;}
+  .hours-row{display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07);padding:.75rem 0;font-family:'Helvetica Neue',sans-serif;font-size:.82rem;}
+  .hours-row span:first-child{color:var(--muted);}
+  .branch-title{font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin:1.5rem 0 .5rem;}
+  form{display:flex;flex-direction:column;gap:1.1rem;}
+  form input,form select{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:var(--light);padding:.9rem 1.2rem;font-family:'Helvetica Neue',sans-serif;font-size:.85rem;outline:none;transition:border .2s;}
+  form input::placeholder{color:var(--muted);}
+  form input:focus,form select:focus{border-color:var(--gold);}
+  form select option{background:#1a1a1a;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  form button{background:var(--gold);color:var(--dark);border:none;padding:1rem;font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:background .2s;}
+  form button:hover{background:var(--light);}
+
+  /* CONTACT */
+  #contact{background:var(--mid);}
+  .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem;}
+  .contact-block h3{font-family:'Helvetica Neue',sans-serif;font-size:.63rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
+  .contact-block p{font-family:'Helvetica Neue',sans-serif;font-size:.86rem;color:var(--muted);line-height:2;}
+  .contact-block a{color:var(--muted);text-decoration:none;transition:color .2s;}
+  .contact-block a:hover{color:var(--light);}
+  .branch-tag{display:inline-block;font-size:.62rem;letter-spacing:.15em;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:.15rem .5rem;margin-bottom:.4rem;}
+  .social-links{display:flex;gap:1rem;margin-top:1rem;}
+  .social-links a{font-family:'Helvetica Neue',sans-serif;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid rgba(255,255,255,.12);padding:.4rem .9rem;text-decoration:none;transition:all .2s;}
+  .social-links a:hover{border-color:var(--gold);color:var(--gold);}
+
+  footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.07);padding:2.5rem 3rem;display:flex;justify-content:space-between;align-items:center;}
+  .footer-logo{font-size:1rem;letter-spacing:.15em;color:rgba(255,255,255,.3);}
+  .footer-copy{font-family:'Helvetica Neue',sans-serif;font-size:.68rem;color:rgba(255,255,255,.2);letter-spacing:.08em;}
+  .footer-links{display:flex;gap:2rem;}
+  .footer-links a{font-family:'Helvetica Neue',sans-serif;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.25);text-decoration:none;}
+  .footer-links a:hover{color:rgba(255,255,255,.6);}
 </style>
 </head>
 <body>
@@ -109,14 +140,14 @@
 <!-- NAV -->
 <nav id="nav">
   <a class="nav-logo" href="#hero" aria-label="板神鐵板燒 — 返回首頁">
-    <img src="https://i.ibb.co/wvMp1gG/logo.png" alt="板神鐵板燒 Logo"/>
+    <img
+      src="https://i.ibb.co/wvMp1gG/logo.png"
+      alt="板神鐵板燒 Logo"
+      style="display:block;max-width:120px;height:auto;object-fit:contain;"
+      onerror="this.style.display='none'"
+    />
   </a>
-  
-  <div class="hamburger" id="hamburger">
-    <span></span><span></span><span></span>
-  </div>
-  
-  <ul class="nav-links" id="navLinks">
+  <ul class="nav-links">
     <li><a href="#" onclick="scrollToSection('about');return false;">關於我們</a></li>
     <li><a href="#" onclick="scrollToSection('menu');return false;">餐牌</a></li>
     <li><a href="#" onclick="scrollToSection('contact');return false;">聯絡</a></li>
@@ -129,14 +160,15 @@
   <div style="position:absolute;inset:0;background:#0a0a0a;"></div>
   <div class="hero-content">
     <p class="hero-tag">頂級鐵板料理 · 香港</p>
-    <div class="hero-logo" style="display:flex;justify-content:center;margin-bottom:1.5rem;">
-      <img src="https://i.ibb.co/wvMp1gG/logo.png" alt="板神鐵板燒"/>
+    <div style="display:flex;justify-content:center;margin-bottom:1.5rem;">
+      <img src="https://i.ibb.co/wvMp1gG/logo.png" alt="板神鐵板燒" style="height:200px;width:auto;filter:drop-shadow(0 4px 32px rgba(201,168,76,0.4));"/>
     </div>
     <h1 class="hero-title">GOD OF TEPPANYAKI</h1>
     <p class="hero-sub">視覺 · 嗅覺 · 味覺的美食饗宴</p>
     <a href="#" onclick="scrollToSection('reservations');return false;" class="btn-gold">立即預訂</a>
     <a href="#" onclick="scrollToSection('menu');return false;" class="btn-outline">瀏覽餐牌</a>
   </div>
+  <div class="scroll-ind"><div class="scroll-line"></div></div>
 </section>
 
 <!-- ABOUT -->
@@ -167,22 +199,28 @@
   <div class="container">
     <p class="section-label">品嚐精華</p>
     <h2 class="section-title">餐牌</h2>
-    <p style="font-family:'Helvetica Neue',sans-serif;font-size:.75rem;color:var(--muted);margin-bottom:2rem;letter-spacing:.1em;text-align:center;">請選擇分店查看餐牌</p>
-    <div class="branch-select">
-      <a class="branch-card" href="https://linktr.ee/godofteppanyaki" target="_blank" rel="noopener">
-        <div class="branch-card-name">銅鑼灣</div>
-        <div class="branch-card-addr">告士打道255-257號<br>信和廣場1樓103號舖</div>
-        <div style="margin-top:1rem;font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.12em;color:var(--gold);">查看餐牌 →</div>
-      </a>
-      <div class="branch-divider"></div>
-      <a class="branch-card" href="https://linktr.ee/KTGodofteppanyaki" target="_blank" rel="noopener">
-        <div class="branch-card-name">觀塘</div>
-        <div class="branch-card-addr">駿業街43號地下</div>
-        <div style="margin-top:1rem;font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.12em;color:var(--gold);">查看餐牌 →</div>
-      </a>
+
+    <!-- 步驟1: 選分店 → 直接跳外部連結 -->
+    <div id="step-branch">
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:.75rem;color:var(--muted);margin-bottom:2rem;letter-spacing:.1em;text-align:center;">請選擇分店查看餐牌</p>
+      <div class="branch-select">
+        <a class="branch-card" href="https://linktr.ee/godofteppanyaki" target="_blank" rel="noopener">
+          <div class="branch-card-name">銅鑼灣</div>
+          <div class="branch-card-addr">告士打道255-257號<br>信和廣場1樓103號舖</div>
+          <div style="margin-top:1rem;font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.12em;color:var(--gold);">查看餐牌 →</div>
+        </a>
+        <div class="branch-divider"></div>
+        <a class="branch-card" href="https://linktr.ee/KTGodofteppanyaki" target="_blank" rel="noopener">
+          <div class="branch-card-name">觀塘</div>
+          <div class="branch-card-addr">駿業街43號地下</div>
+          <div style="margin-top:1rem;font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.12em;color:var(--gold);">查看餐牌 →</div>
+        </a>
+      </div>
     </div>
   </div>
 </section>
+
+
 
 <!-- RESERVATIONS -->
 <section id="reservations">
@@ -238,6 +276,13 @@
           <option>2位</option>
           <option>3位</option>
         </select>
+        <div style="font-family:'Helvetica Neue',sans-serif;font-size:.76rem;color:var(--muted);padding:.4rem 0 0 .2rem;">
+          👶 6歲或以上兒童最低消費為 $400
+        </div>
+        <div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);padding:.9rem 1.2rem;font-family:'Helvetica Neue',sans-serif;font-size:.78rem;color:var(--gold);line-height:1.7;">
+          ⚠️ 四位或以上需 WhatsApp 餐廳預訂及繳付定金<br>
+          <span style="color:var(--muted);">銅鑼灣 📱 9739 1677 ｜ 觀塘 📱 5226 7837</span>
+        </div>
         <button type="submit">送出預訂申請</button>
       </form>
     </div>
@@ -292,57 +337,89 @@
 </footer>
 
 <script>
-document.getElementById('hamburger').addEventListener('click', function(){
-  document.getElementById('navLinks').classList.toggle('active');
-});
-
 function scrollToSection(id){
-  var el = document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth'});
+  var el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth'});
 }
-
 document.addEventListener('DOMContentLoaded', function(){
+  // Hero slider
+  var cur=0;
+  var slides=document.querySelectorAll('.slide');
+  if(slides.length>0){
+    setInterval(function(){slides[cur].classList.remove('active');cur=(cur+1)%slides.length;slides[cur].classList.add('active');},5000);
+  }
   window.addEventListener('scroll',function(){
     var nav=document.getElementById('nav');
-    if(nav) nav.classList.toggle('scrolled',window.scrollY>80);
+    if(nav)nav.classList.toggle('scrolled',window.scrollY>80);
   });
 
-  // 日期選單
-  var sel = document.getElementById('resDate');
+  // 餐牌步驟
+  var menuBranch='';
+  var btnCwb=document.getElementById('btn-cwb');
+  var btnKt=document.getElementById('btn-kt');
+  var backBranch=document.getElementById('back-to-branch');
+  var btnLunch=document.getElementById('btn-lunch');
+  var btnDinner=document.getElementById('btn-dinner');
+  var backSession=document.getElementById('back-to-session');
+
+  function showSession(name){
+    document.getElementById('bc-branch').textContent=name;
+    document.getElementById('step-branch').style.display='none';
+    document.getElementById('step-session').style.display='block';
+  }
+  function showMenu(session){
+    var bName=menuBranch==='cwb'?'銅鑼灣':'觀塘';
+    document.getElementById('bc-branch2').textContent=bName;
+    document.getElementById('bc-session').textContent=session;
+    document.getElementById('step-session').style.display='none';
+    document.getElementById('step-menu').style.display='block';
+  }
+
+  if(btnCwb) btnCwb.addEventListener('click',function(){menuBranch='cwb';showSession('銅鑼灣');});
+  if(btnKt) btnKt.addEventListener('click',function(){menuBranch='kt';showSession('觀塘');});
+  if(backBranch) backBranch.addEventListener('click',function(){
+    document.getElementById('step-session').style.display='none';
+    document.getElementById('step-branch').style.display='block';
+  });
+  if(btnLunch) btnLunch.addEventListener('click',function(){showMenu('午市');});
+  if(btnDinner) btnDinner.addEventListener('click',function(){showMenu('晚市');});
+  if(backSession) backSession.addEventListener('click',function(){
+    document.getElementById('step-menu').style.display='none';
+    document.getElementById('step-session').style.display='block';
+  });
+
+  // 日期下拉
+  function pad(n){return String(n).padStart(2,'0');}
+  var sel=document.getElementById('resDate');
   if(sel){
-    var opt = document.createElement('option');
-    opt.value = ''; opt.textContent = '選擇日期 *';
-    sel.appendChild(opt);
-    var wn = ['日','一','二','三','四','五','六'];
-    var today = new Date(); today.setHours(0,0,0,0);
-    for(var i=1; i<=60; i++){
-      var d = new Date(today); d.setDate(today.getDate()+i);
-      var y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), dd = String(d.getDate()).padStart(2,'0');
-      var o = document.createElement('option');
-      o.value = y+'-'+m+'-'+dd;
-      o.textContent = y+'年'+m+'月'+dd+'日（星期'+wn[d.getDay()]+'）';
+    var opt=document.createElement('option');opt.value='';opt.textContent='選擇日期 *';sel.appendChild(opt);
+    var wn=['日','一','二','三','四','五','六'];
+    var today=new Date();today.setHours(0,0,0,0);
+    for(var i=1;i<=60;i++){
+      var d=new Date(today);d.setDate(today.getDate()+i);
+      var y=d.getFullYear(),m=pad(d.getMonth()+1),dd=pad(d.getDate());
+      var o=document.createElement('option');
+      o.value=y+'-'+m+'-'+dd;
+      o.textContent=y+'年'+m+'月'+dd+'日（星期'+wn[d.getDay()]+'）';
       sel.appendChild(o);
     }
   }
 });
 
 function updateTime(){
-  var s = document.getElementById('session').value;
-  var t = document.getElementById('resTime');
-  t.innerHTML = '<option value="">選擇時間 *</option>';
-  var times = s==='lunch' ? ['12:00','12:15','12:30','13:00','13:15','13:30'] : 
-              s==='dinner' ? ['18:00','18:15','18:30','19:00','19:15','19:30','20:00','20:15','20:30'] : [];
-  times.forEach(function(v){
-    var o = document.createElement('option'); o.value = v; o.textContent = v; t.appendChild(o);
-  });
+  var s=document.getElementById('session').value;
+  var t=document.getElementById('resTime');
+  t.innerHTML='<option value="">選擇時間 *</option>';
+  var times=s==='lunch'?['12:00','12:15','12:30','13:00','13:15','13:30']:s==='dinner'?['18:00','18:15','18:30','19:00','19:15','19:30','20:00','20:15','20:30']:[];
+  times.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=v;t.appendChild(o);});
 }
 
 function submitForm(e){
   e.preventDefault();
-  var f = document.getElementById('resForm');
-  var salute = document.getElementById('salute').value;
-  var name = document.getElementById('fname').value;
-  f.innerHTML = '<p style="text-align:center;padding:2.5rem 1rem;font-family:Helvetica Neue,sans-serif;font-size:.85rem;color:var(--gold);letter-spacing:.1em;">✓ 預訂申請已收到！<br><span style="color:var(--muted);margin-top:.8rem;display:block;line-height:1.9;">感謝 '+salute+' '+name+'，<br>我們將盡快聯絡您確認訂座。</span></p>';
+  var f=document.getElementById('resForm');
+  var salute=document.getElementById('salute').value;
+  var name=document.getElementById('fname').value;
+  f.innerHTML='<p style="text-align:center;padding:2.5rem 1rem;font-family:Helvetica Neue,sans-serif;font-size:.85rem;color:var(--gold);letter-spacing:.1em;">✓ 預訂申請已收到！<br><span style="color:var(--muted);margin-top:.8rem;display:block;line-height:1.9;">感謝 '+salute+' '+name+'，<br>我們將盡快聯絡您確認訂座。</span></p>';
 }
 </script>
 </body>
